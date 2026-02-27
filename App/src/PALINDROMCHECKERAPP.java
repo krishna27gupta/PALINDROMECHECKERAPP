@@ -1,16 +1,17 @@
 import java.util.Scanner;
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.Stack;
 
 public class PALINDROMCHECKERAPP {
 
-    // UC-1: Palindrome check (case-sensitive, spaces included)
+    // UC-1: Case-sensitive palindrome check
     public static boolean isPalindromeUC1(String str) {
-        int left = 0;
-        int right = str.length() - 1;
+        int left = 0, right = str.length() - 1;
 
         while (left < right) {
-            if (str.charAt(left) != str.charAt(right)) {
+            if (str.charAt(left) != str.charAt(right))
                 return false;
-            }
             left++;
             right--;
         }
@@ -19,42 +20,43 @@ public class PALINDROMCHECKERAPP {
 
     // UC-2: Case-insensitive palindrome check
     public static boolean isPalindromeUC2(String str) {
-        str = str.toLowerCase();
+        return isPalindromeUC1(str.toLowerCase());
+    }
 
-        int left = 0;
-        int right = str.length() - 1;
+    // UC-6: Queue + Stack palindrome check (FIFO vs LIFO)
+    public static boolean isPalindromeUC6(String str) {
+        str = str.replaceAll("\\s+", "").toLowerCase();
 
-        while (left < right) {
-            if (str.charAt(left) != str.charAt(right)) {
+        Queue<Character> queue = new LinkedList<>();
+        Stack<Character> stack = new Stack<>();
+
+        for (char ch : str.toCharArray()) {
+            queue.add(ch);   // FIFO
+            stack.push(ch);  // LIFO
+        }
+
+        while (!queue.isEmpty()) {
+            if (!queue.remove().equals(stack.pop()))
                 return false;
-            }
-            left++;
-            right--;
         }
         return true;
     }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-        System.out.println("=== Palindrome Checker App ===");
         System.out.print("Enter a word or phrase: ");
-        String input = scanner.nextLine();
+        String input = sc.nextLine();
 
-        System.out.println("\nUC-1 Result:");
-        if (isPalindromeUC1(input)) {
-            System.out.println("Palindrome (case-sensitive)");
-        } else {
-            System.out.println("Not a Palindrome (case-sensitive)");
-        }
+        System.out.println("\nUC-1: " +
+                (isPalindromeUC1(input) ? "Palindrome" : "Not a Palindrome"));
 
-        System.out.println("\nUC-2 Result:");
-        if (isPalindromeUC2(input)) {
-            System.out.println("Palindrome (case-insensitive)");
-        } else {
-            System.out.println("Not a Palindrome (case-insensitive)");
-        }
+        System.out.println("UC-2: " +
+                (isPalindromeUC2(input) ? "Palindrome" : "Not a Palindrome"));
 
-        scanner.close();
+        System.out.println("UC-6: " +
+                (isPalindromeUC6(input) ? "Palindrome (Queue + Stack)" : "Not a Palindrome"));
+
+        sc.close();
     }
 }
