@@ -8,7 +8,6 @@ public class PALINDROMCHECKERAPP {
     // UC-1: Case-sensitive palindrome check
     public static boolean isPalindromeUC1(String str) {
         int left = 0, right = str.length() - 1;
-
         while (left < right) {
             if (str.charAt(left) != str.charAt(right))
                 return false;
@@ -23,7 +22,30 @@ public class PALINDROMCHECKERAPP {
         return isPalindromeUC1(str.toLowerCase());
     }
 
-    // UC-6: Queue + Stack palindrome check (FIFO vs LIFO)
+    // UC-3: Palindrome check using String reverse
+    public static boolean isPalindromeUC3(String str) {
+        String reverse = "";
+        for (int i = str.length() - 1; i >= 0; i--) {
+            reverse += str.charAt(i);
+        }
+        return str.equals(reverse);
+    }
+
+    // UC-4: Character array based palindrome check
+    public static boolean isPalindromeUC4(String str) {
+        char[] chars = str.toCharArray();
+        int start = 0, end = chars.length - 1;
+
+        while (start < end) {
+            if (chars[start] != chars[end])
+                return false;
+            start++;
+            end--;
+        }
+        return true;
+    }
+
+    // UC-6: Queue + Stack palindrome check
     public static boolean isPalindromeUC6(String str) {
         str = str.replaceAll("\\s+", "").toLowerCase();
 
@@ -48,14 +70,11 @@ public class PALINDROMCHECKERAPP {
         System.out.print("Enter a word or phrase: ");
         String input = sc.nextLine();
 
-        System.out.println("\nUC-1: " +
-                (isPalindromeUC1(input) ? "Palindrome" : "Not a Palindrome"));
-
-        System.out.println("UC-2: " +
-                (isPalindromeUC2(input) ? "Palindrome" : "Not a Palindrome"));
-
-        System.out.println("UC-6: " +
-                (isPalindromeUC6(input) ? "Palindrome (Queue + Stack)" : "Not a Palindrome"));
+        System.out.println("\nUC-1: " + (isPalindromeUC1(input) ? "Palindrome" : "Not a Palindrome"));
+        System.out.println("UC-2: " + (isPalindromeUC2(input) ? "Palindrome" : "Not a Palindrome"));
+        System.out.println("UC-3: " + (isPalindromeUC3(input) ? "Palindrome (Reverse)" : "Not a Palindrome"));
+        System.out.println("UC-4: " + (isPalindromeUC4(input) ? "Palindrome (char[])" : "Not a Palindrome"));
+        System.out.println("UC-6: " + (isPalindromeUC6(input) ? "Palindrome (Queue + Stack)" : "Not a Palindrome"));
 
         sc.close();
     }
